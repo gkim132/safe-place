@@ -1,6 +1,5 @@
 import React, { useState, useCallback, memo } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import "./Map.css";
 
 const Map = () => {
   const { isLoaded, loadError } = useJsApiLoader({
