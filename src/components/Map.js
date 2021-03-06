@@ -12,7 +12,7 @@ const sampleCoordinates = [
 const Map = () => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBpzqBpEXNNeLU9O2B5GGqWvspJSk7tfL8",
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
 
   const markers = sampleCoordinates.map((val, ind) => {
