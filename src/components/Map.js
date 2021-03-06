@@ -13,6 +13,7 @@ const Map = () => {
         mapContainerStyle={mapContainerStyle}
         center={center}
         zoom={zoom}
+        options={options}
       ></GoogleMap>
     </div>
   ) : (
@@ -31,5 +32,10 @@ const center = {
 };
 
 const zoom = 12;
+
+const options = {
+  disableDefaultUI: true,
+  zoomControl: true,
+};
 
 export default memo(Map);
