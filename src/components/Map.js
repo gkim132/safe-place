@@ -1,31 +1,35 @@
 import React, { useState, useEffect, useCallback, memo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
-const sampleCoordinates = [
-  { lat: 43.076599655501866, lng: -89.41248893737793 },
-  { lat: 43.06496001609586, lng: -89.41759435083787 },
-  { lat: 43.07473447236347, lng: -89.38405752182007 },
-  { lat: 43.070216176323775, lng: -89.3565864905864 },
-  { lat: 43.09208318533129, lng: -89.36725616455078 },
-];
-
 const Map = () => {
   const [location, setLocation] = useState();
+  const [markers, setMarkers] = useState([]);
+  const [selected, setSelected] = useState(null);
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      const res = await fetch("/location");
-      const data = await res.json();
+  // useEffect(() => {
+  //   const fetchEvent = async () => {
+  //     const res = await fetch("/pop");
+  //     const data = await res.json();
+  //     console.log("pop:", data);
+  //     setLocation(data);
+  //   };
+  //   fetchEvent();
+  //   console.log("loaded location:", location);
+  // }, []);
 
-      setLocation(data);
-    };
-    fetchEvent();
-    console.log("loaded location:", location);
+  const onMapClick = useCallback((e) => {
+    console.log("e.placeId", e.placeId == null);
+    if (e.placeId) {
+      setMarkers((current) => [
+        ...current,
+        {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng(),
+          time: new Date(),
+        },
+      ]);
+    }
   }, []);
-
-  const markers = sampleCoordinates.map((val, ind) => {
-    return <Marker key={ind} position={val} />;
-  });
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
@@ -39,11 +43,29 @@ const Map = () => {
         center={center}
         zoom={zoom}
         options={options}
-        onClick={(e) => {
-          console.log(e.latLng.lat(), e.latLng.lng());
-        }}
+        clickableIcons={true}
+        // onClick={(e) => {
+        //   console.log(e.placeId);
+        //   console.log(e.latLng.lat(), e.latLng.lng());
+        //   e.placeId ? { onMapClick } : null;
+        // }}
+        onClick={onMapClick}
       >
-        {markers}
+        {markers.map((marker) => (
+          <Marker
+            position={{ lat: marker.lat, lng: marker.lng }}
+            onClick={(e) => {
+              setSelected(marker);
+              console.log(e.latLng.lat(), e.latLng.lng());
+            }}
+            icon={{
+              url: `/blue-marker.svg`,
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 30),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
+        ))}
       </GoogleMap>
     </div>
   ) : (
