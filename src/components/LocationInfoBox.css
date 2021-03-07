@@ -1,0 +1,19 @@
+.location__info {
+  position: absolute;
+  top: 80px;
+  left: 50px;
+  width: 300px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.location__info ul {
+  padding: 0;
+}
+
+.location__info li {
+  padding: 5px 0;
+}
