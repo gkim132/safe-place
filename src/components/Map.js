@@ -43,7 +43,6 @@ const Map = () => {
     console.log("e", e);
     if (e.placeId) {
       setMarkers((current) => [
-        ...current,
         {
           lat: e.latLng.lat(),
           lng: e.latLng.lng(),
