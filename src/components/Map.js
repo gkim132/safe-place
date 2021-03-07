@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 const sampleCoordinates = [
@@ -10,13 +10,25 @@ const sampleCoordinates = [
 ];
 
 const Map = () => {
-  const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.REACT_APP_API_KEY,
-  });
+  const [location, setLocation] = useState([]);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+      const data = await res.json();
+
+      setLocation(data);
+    };
+    fetchEvent();
+  }, []);
 
   const markers = sampleCoordinates.map((val, ind) => {
     return <Marker key={ind} position={val} />;
+  });
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
 
   return isLoaded || loadError ? (
