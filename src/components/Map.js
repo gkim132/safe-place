@@ -6,24 +6,27 @@ const Map = () => {
   const [location, setLocation] = useState();
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [locationInfo, setLocationInfo] = useState();
+  const [locationInfo, setLocationInfo] = useState("");
 
-  // useEffect(() => {
-  //   const fetchEvent = async () => {
-  //     const res = await fetch("/pop");
-  //     const data = await res.json();
-  //     console.log("pop:", data);
-  //     setLocation(data);
-  //   };
-  //   fetchEvent();
-  //   console.log("loaded location:", location);
-  // }, []);
+  const place_Id = locationInfo.placeId;
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const res = await fetch(`/placeId/ChIJMwrMIKelfDURFATcnSITUWM`);
+        const data = await res.json();
+        // console.log("pop:", data);
+        setLocation(data);
+      } catch (err) {}
+    };
+    fetchEvent();
+    // console.log("loaded location:", location);
+  }, [place_Id]);
 
   const locationMarker = markers.map((marker, ind) => (
     <Marker
       key={ind}
       position={{ lat: marker.lat, lng: marker.lng }}
-      onClick={(e) => {
+      onClick={() => {
         setSelected(marker);
         setLocationInfo({ name: marker.placeId, address: marker.lat });
       }}
@@ -73,7 +76,9 @@ const Map = () => {
       >
         {locationMarker}
       </GoogleMap>
-      {locationInfo && <LocationInfoBox info={locationInfo} />}
+      {selected && locationInfo && (
+        <LocationInfoBox selected={selected} info={locationInfo} />
+      )}
     </div>
   ) : (
     "Loading"

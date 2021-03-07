@@ -3,7 +3,7 @@
   top: 80px;
   left: 50px;
   width: 300px;
-  padding: 20px;
+  padding: 5px 20px;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   font-size: 18px;
@@ -16,4 +16,23 @@
 
 .location__info li {
   padding: 5px 0;
+}
+
+.location__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  color: white;
+  position: relative;
+  bottom: 20px;
+  left: 10px;
+  height: 1.8rem;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border-color: white;
+  cursor: pointer;
 }
