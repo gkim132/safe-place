@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, memo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+
 import LocationInfoBox from "./LocationInfoBox";
+import SearchBox from "./SearchBox";
 
 const Map = () => {
   const [location, setLocation] = useState();
@@ -8,19 +10,19 @@ const Map = () => {
   const [selected, setSelected] = useState(null);
   const [locationInfo, setLocationInfo] = useState("");
 
-  const place_Id = locationInfo.placeId;
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const res = await fetch(`/placeId/ChIJMwrMIKelfDURFATcnSITUWM`);
-        const data = await res.json();
-        // console.log("pop:", data);
-        setLocation(data);
-      } catch (err) {}
-    };
-    fetchEvent();
-    // console.log("loaded location:", location);
-  }, [place_Id]);
+  // const place_Id = locationInfo.placeId;
+  // useEffect(() => {
+  //   const fetchEvent = async () => {
+  //     try {
+  //       const res = await fetch(`/placeId/${place_Id}`);
+  //       const data = await res.json();
+  //       console.log("pop:", data);
+  //       setLocation(data);
+  //     } catch (err) {}
+  //   };
+  //   fetchEvent();
+  //   console.log("loaded location:", location);
+  // }, [place_Id]);
 
   const locationMarker = markers.map((marker, ind) => (
     <Marker
@@ -60,6 +62,7 @@ const Map = () => {
 
   return isLoaded || loadError ? (
     <div>
+      <SearchBox />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
