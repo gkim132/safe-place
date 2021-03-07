@@ -10,16 +10,17 @@ const sampleCoordinates = [
 ];
 
 const Map = () => {
-  const [location, setLocation] = useState([]);
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+      const res = await fetch("/location");
       const data = await res.json();
 
       setLocation(data);
     };
     fetchEvent();
+    console.log("loaded location:", location);
   }, []);
 
   const markers = sampleCoordinates.map((val, ind) => {
