@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./SearchBox.css";
 
 import {
@@ -14,17 +14,8 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-// import useOnclickOutside from "react-cool-onclickoutside";
 
-// https://www.npmjs.com/package/use-places-autocomplete
-
-// const ref = useOnclickOutside(() => {
-//   // When user clicks outside of the component, we can dismiss
-//   // the searched suggestions by calling this method
-//   clearSuggestions();
-// });
-
-function SearchBox({ panTo }) {
+function SearchBox({ mapRef }) {
   const {
     ready,
     value,
@@ -37,8 +28,6 @@ function SearchBox({ panTo }) {
       radius: 100 * 1000,
     },
   });
-
-  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
 
   const handleInput = (e) => {
     setValue(e.target.value);
@@ -55,16 +44,30 @@ function SearchBox({ panTo }) {
     } catch (error) {}
   };
 
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(16);
+  }, []);
+
   return (
     <div className="search">
       <Combobox onSelect={handleSelect}>
-        <ComboboxInput
-          value={value}
-          onChange={handleInput}
-          disabled={!ready}
-          placeholder="Search"
-        />
-        <ComboboxPopover>
+        <div className="search__box">
+          <ComboboxInput
+            value={value}
+            onChange={handleInput}
+            disabled={!ready}
+            placeholder="Search"
+            style={{
+              borderRadius: 10,
+              border: 0,
+            }}
+          />
+          <button className="search__box__btn" onClick={() => {}}>
+            <i className="fa fa-close"></i>
+          </button>
+        </div>
+        <ComboboxPopover style={{ borderRadius: 10 }}>
           <ComboboxList>
             {status === "OK" &&
               data.map(({ id, description }) => (
