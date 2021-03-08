@@ -31,7 +31,7 @@ const LocationInfoBox = ({
     };
 
     fetchEvents();
-  }, [detailedLocationInfo]);
+  }, []);
 
   return selected && localDate ? (
     <div className="location__info">
@@ -60,8 +60,18 @@ const LocationInfoBox = ({
         <li>
           Current Occupancy:{" "}
           <strong>
-            {detailedLocationInfo.populartimes[localDate[0]].data[localDate[1]]}
-            %
+            {detailedLocationInfo.populartimes ? (
+              <span>
+                {
+                  detailedLocationInfo.populartimes[localDate[0]].data[
+                    localDate[1]
+                  ]
+                }
+                %
+              </span>
+            ) : (
+              <span>Unknown</span>
+            )}
           </strong>
         </li>
       </ul>
