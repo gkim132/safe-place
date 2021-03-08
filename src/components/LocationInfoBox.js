@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./LocationInfoBox.css";
 
-const LocationInfoBox = ({ selected, info }) => {
-  const [displayButton, setDisplayButton] = useState(selected);
+const LocationInfoBox = ({ selected, info, setSelected }) => {
+  const [displayButton, setDisplayButton] = useState("");
+  useEffect(() => {
+    setSelected(selected);
+  }, [selected]);
+
+  console.log("++++++>>>>>>>>", selected);
+  // const [displayButton, setDisplayButton] = useState(selected);
   //   console.log("selected :>> ", selected);
-  return displayButton ? (
+  return selected ? (
     <div className="location__info">
       <div className="location__top">
         <div className="location__info__title">
@@ -12,7 +18,9 @@ const LocationInfoBox = ({ selected, info }) => {
         </div>
         <button
           className="btn"
-          onClick={() => setDisplayButton(!displayButton)}
+          onClick={() => {
+            setSelected("");
+          }}
         >
           <i className="fa fa-close"></i>
         </button>
