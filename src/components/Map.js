@@ -24,20 +24,27 @@ const Map = () => {
   const [selected, setSelected] = useState();
   const [basicLocationInfo, setBasicbasicLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ChIJgUbEo8cfqokR5lP9_Wh_DaM
   useEffect(() => {
     const fetchEvent = async () => {
       try {
         console.log("first", basicLocationInfo);
+        setLoading(false);
         if (basicLocationInfo) {
           console.log("adfadf", basicLocationInfo);
           const place_Id = basicLocationInfo[0].placeId;
           const res = await fetch(`/placeId/${place_Id}`);
           const data = await res.json();
-          console.log("data", data);
+          await console.log("data", data);
+          await console.log("tea", data.populartimes[0].data[10]);
+          await console.log(
+            "tea",
+            JSON.parse(JSON.stringify(data.populartimes[0].data[10]))
+          );
           await setDetailedLocationInfo(data);
-          // setSelected(true);
+          setLoading(true);
         }
       } catch (err) {
         console.log("Fetch error: ", err);
@@ -118,6 +125,7 @@ const Map = () => {
             selected={selected}
             setSelected={setSelected}
             detailedLocationInfo={detailedLocationInfo}
+            loading={loading}
           />
         )}
       </GoogleMap>

@@ -1,24 +1,24 @@
 import { Data } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import "./LocationInfoBox.css";
-import moment from "moment";
 
-const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
-  //   useEffect(() => {
-  //     setSelected(selected);
-  //   }, []);
+const LocationInfoBox = ({
+  selected,
+  setSelected,
+  detailedLocationInfo,
+  loading,
+}) => {
+  const [loadingDate, setLoadingDate] = useState(false);
+  const [localDate, setLocalDate] = useState();
   function calcTime(offset) {
-    var d = new Date();
-    var utc = d.getTime() + d.getTimezoneOffset() * 60000;
-    var nd = new Date(utc + 1000 * offset);
-
-    console.log("The local time is ", nd.toLocaleString());
+    const d = new Date();
+    const utc = d.getTime() + d.getTimezoneOffset() * 60000;
+    const date = new Date(utc + 1000 * offset);
+    setLocalDate([date.getDay(), date.getHours(), date.getMinutes()]);
   }
   useEffect(() => {
     const fetchEvents = async () => {
-      //   setSelected(selected);
-
-      console.log("test: >>>>>>>>>>>>>>>>>>>>>>>>");
+      setLoadingDate(false);
       const timestamp = Math.floor(Date.now() / 1000);
 
       const res = await fetch(
@@ -27,12 +27,13 @@ const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
       const data = await res.json();
       await console.log(data);
       await calcTime(data.rawOffset + data.dstOffset);
+      await setLoadingDate(true);
     };
 
     fetchEvents();
   }, [detailedLocationInfo]);
 
-  return selected ? (
+  return selected && localDate ? (
     <div className="location__info">
       <div className="location__top">
         <div className="location__info__title">
@@ -55,10 +56,13 @@ const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
         <li>
           Address: <strong>{detailedLocationInfo.address}</strong>
         </li>
-
         <br></br>
         <li>
-          {/* Occupancy: <strong>{detailedLocationInfo.populartimes}</strong> */}
+          Current Occupancy:{" "}
+          <strong>
+            {detailedLocationInfo.populartimes[localDate[0]].data[localDate[1]]}
+            %
+          </strong>
         </li>
       </ul>
     </div>
