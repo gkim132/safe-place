@@ -52,9 +52,7 @@ function SearchBox({ panTo }) {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
       panTo({ lat, lng });
-    } catch (error) {
-      console.log("Error: ", error);
-    }
+    } catch (error) {}
   };
 
   return (

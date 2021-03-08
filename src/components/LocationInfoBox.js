@@ -25,7 +25,6 @@ const LocationInfoBox = ({
         `https://maps.googleapis.com/maps/api/timezone/json?location=${detailedLocationInfo.coordinates.lat},${detailedLocationInfo.coordinates.lng}&timestamp=${timestamp}&key=${process.env.REACT_APP_API_KEY}`
       );
       const data = await res.json();
-      await console.log(data);
       await calcTime(data.rawOffset + data.dstOffset);
       await setLoadingDate(true);
     };
