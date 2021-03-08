@@ -1,15 +1,15 @@
+import { Data } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import "./LocationInfoBox.css";
 
-const LocationInfoBox = ({ selected, info, setSelected }) => {
-  const [displayButton, setDisplayButton] = useState("");
+const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
   useEffect(() => {
     setSelected(selected);
   }, [selected]);
 
-  console.log("++++++>>>>>>>>", selected);
-  // const [displayButton, setDisplayButton] = useState(selected);
-  //   console.log("selected :>> ", selected);
+  console.log("detailedLocationInfo: ", detailedLocationInfo);
+  console.log("selected in locationBox :>> ", new Date());
+
   return selected ? (
     <div className="location__info">
       <div className="location__top">
@@ -27,11 +27,11 @@ const LocationInfoBox = ({ selected, info, setSelected }) => {
       </div>
       <ul>
         <li>
-          Name: <strong>{info.name}</strong>
+          Name: <strong>{detailedLocationInfo.name}</strong>
         </li>
         <br></br>
         <li>
-          Address: <strong>{info.address}</strong>
+          Address: <strong>{detailedLocationInfo.address}</strong>
         </li>
       </ul>
     </div>

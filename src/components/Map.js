@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback, memo, useRef } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import LocationInfoBox from "./LocationInfoBox";
@@ -20,34 +20,38 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 
 const Map = () => {
-  const [location, setLocation] = useState();
   const [markers, setMarkers] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [locationInfo, setLocationInfo] = useState("");
+  const [selected, setSelected] = useState();
+  const [basicLocationInfo, setBasicbasicLocationInfo] = useState();
+  const [detailedLocationInfo, setDetailedLocationInfo] = useState();
 
   // ChIJgUbEo8cfqokR5lP9_Wh_DaM
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        if (locationInfo.name) {
-          console.log(locationInfo);
-          const place_Id = locationInfo.name;
+        console.log("first", basicLocationInfo);
+        if (basicLocationInfo) {
+          console.log("adfadf", basicLocationInfo);
+          const place_Id = basicLocationInfo[0].placeId;
           const res = await fetch(`/placeId/${place_Id}`);
           const data = await res.json();
-          console.log("pop:", data);
-          setLocation(data);
+          console.log("data", data);
+          await setDetailedLocationInfo(data);
+          // setSelected(true);
         }
-      } catch (err) {}
+      } catch (err) {
+        console.log("Fetch error: ", err);
+      }
     };
     fetchEvent();
-  }, [locationInfo]);
+  }, [basicLocationInfo]);
 
-  const mapRef = React.useRef();
-  const onMapLoad = React.useCallback((map) => {
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
 
-  const panTo = React.useCallback(({ lat, lng }) => {
+  const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(16);
   }, []);
@@ -57,8 +61,7 @@ const Map = () => {
       key={ind}
       position={{ lat: marker.lat, lng: marker.lng }}
       onClick={() => {
-        setSelected(marker);
-        setLocationInfo({ name: marker.placeId, address: marker.lat });
+        setSelected(true);
       }}
       icon={{
         url: `/blue-marker.svg`,
@@ -70,19 +73,24 @@ const Map = () => {
   ));
 
   const onMapClick = useCallback((e) => {
-    console.log("e", e);
+    console.log("map clicked", e);
     if (e.placeId) {
+      console.log("selected after map clicked ", selected);
       setMarkers(() => [
         {
           lat: e.latLng.lat(),
           lng: e.latLng.lng(),
+        },
+      ]);
+      setSelected(() => true);
+      setBasicbasicLocationInfo(() => [
+        {
+          name: "",
+          coordinates: [e.latLng.lat(), e.latLng.lng()],
           placeId: e.placeId,
           time: new Date(),
         },
       ]);
-      console.log("markers", markers);
-      setSelected(true);
-      // setLocationInfo({ name: marker.placeId, address: marker.lat });
     }
   }, []);
 
@@ -100,20 +108,16 @@ const Map = () => {
         zoom={zoom}
         options={options}
         clickableIcons={true}
-        // onClick={(e) => {
-        //   console.log(e.placeId);
-        //   console.log(e.latLng.lat(), e.latLng.lng());
-        //   e.placeId ? { onMapClick } : null;
-        // }}
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        {console.log("selected before marker created", selected)}
         {locationMarker}
-        {selected && (
+        {detailedLocationInfo && (
           <LocationInfoBox
             selected={selected}
-            info={locationInfo}
             setSelected={setSelected}
+            detailedLocationInfo={detailedLocationInfo}
           />
         )}
       </GoogleMap>
