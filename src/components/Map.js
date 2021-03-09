@@ -9,12 +9,10 @@ const Map = () => {
   const [selected, setSelected] = useState();
   const [basicLocationInfo, setBasicbasicLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        setLoading(false);
         if (basicLocationInfo) {
           const place_Id = basicLocationInfo[0].placeId;
           const res = await fetch(`/placeId/${place_Id}`);
@@ -22,8 +20,8 @@ const Map = () => {
 
           const result = await JSON.parse(JSON.stringify(data));
           await setDetailedLocationInfo(result);
-          setLoading(true);
           setSelected(true);
+          console.log("mapEffect :>> ");
         }
       } catch (err) {}
     };
@@ -98,7 +96,6 @@ const Map = () => {
             selected={selected}
             setSelected={setSelected}
             detailedLocationInfo={detailedLocationInfo}
-            loading={loading}
           />
         )}
       </GoogleMap>

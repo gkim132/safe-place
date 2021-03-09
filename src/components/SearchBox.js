@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import "./SearchBox.css";
 
 import {
@@ -7,7 +7,6 @@ import {
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-  ComboboxOptionText,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, {
@@ -77,8 +76,8 @@ function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
         <ComboboxPopover style={{ borderRadius: 10 }}>
           <ComboboxList>
             {status === "OK" &&
-              data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>
