@@ -57,18 +57,20 @@ const LocationInfoBox = ({
         </li>
         <br></br>
         <li>
-          Current Occupancy:{" "}
-          <strong>
-            {detailedLocationInfo.populartimes ? (
-              occupancyColor(
-                detailedLocationInfo.populartimes[localDate[0]].data[
-                  localDate[1]
-                ]
-              )
-            ) : (
-              <span>Unknown</span>
-            )}
-          </strong>
+          <div className="occupancy">
+            Current Occupancy:{" "}
+            <div className="occupancy__number">
+              {detailedLocationInfo.populartimes ? (
+                occupancyColor(
+                  detailedLocationInfo.populartimes[localDate[0]].data[
+                    localDate[1]
+                  ]
+                )
+              ) : (
+                <div className="unknown">Unknown</div>
+              )}
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -79,10 +81,10 @@ export default LocationInfoBox;
 
 const occupancyColor = (crowd) => {
   if (crowd > 66) {
-    return <span style={{ color: "red" }}>{crowd}%</span>;
+    return <div className="red">{crowd}%</div>;
   } else if (crowd > 33) {
-    return <span style={{ color: "yellow" }}>{crowd}%</span>;
+    return <div className="orange">{crowd}%</div>;
   } else {
-    return <span style={{ color: "green" }}>{crowd}%</span>;
+    return <div className="green">{crowd}%</div>;
   }
 };

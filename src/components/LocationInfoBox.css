@@ -8,6 +8,7 @@
   border-radius: 10px;
   font-size: 18px;
   color: #fff;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 40%);
 }
 
 .location__info ul {
@@ -35,4 +36,29 @@
   border-radius: 5px;
   border-color: white;
   cursor: pointer;
+}
+
+.occupancy {
+  display: flex;
+  align-items: center;
+}
+
+.occupancy__number {
+  font-size: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.red {
+  color: red;
+}
+.orange {
+  color: orange;
+}
+.green {
+  color: lawngreen;
+}
+
+.unknown {
+  font-size: 22px;
 }
