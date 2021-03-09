@@ -28,7 +28,9 @@ function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
       radius: 100 * 1000,
     },
   });
-
+  const handleButton = () => {
+    setValue("");
+  };
   const handleInput = (e) => {
     setValue(e.target.value);
   };
@@ -39,7 +41,6 @@ function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
 
     try {
       const results = await getGeocode({ address });
-      console.log("results", results);
 
       const { lat, lng } = await getLatLng(results[0]);
       panTo({ lat, lng });
@@ -69,7 +70,7 @@ function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
               border: 0,
             }}
           />
-          <button className="search__box__btn" onClick={() => {}}>
+          <button className="search__box__btn" onClick={handleButton}>
             <i className="fa fa-close"></i>
           </button>
         </div>

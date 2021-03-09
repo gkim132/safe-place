@@ -10,6 +10,7 @@ const LocationInfoBox = ({
 }) => {
   const [loadingDate, setLoadingDate] = useState(false);
   const [localDate, setLocalDate] = useState();
+
   function calcTime(offset) {
     const d = new Date();
     const utc = d.getTime() + d.getTimezoneOffset() * 60000;
@@ -60,6 +61,7 @@ const LocationInfoBox = ({
           <div className="occupancy">
             Current Occupancy:{" "}
             <div className="occupancy__number">
+              {console.log(localDate)}
               {detailedLocationInfo.populartimes ? (
                 occupancyColor(
                   detailedLocationInfo.populartimes[localDate[0]].data[

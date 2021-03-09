@@ -23,6 +23,7 @@ const Map = () => {
           const result = await JSON.parse(JSON.stringify(data));
           await setDetailedLocationInfo(result);
           setLoading(true);
+          setSelected(true);
         }
       } catch (err) {}
     };
@@ -70,7 +71,6 @@ const Map = () => {
       ]);
     }
   }, []);
-  console.log("markers :>> ", markers);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
