@@ -15,7 +15,10 @@ const LocationInfoBox = ({
     const d = new Date();
     const utc = d.getTime() + d.getTimezoneOffset() * 60000;
     const date = new Date(utc + 1000 * offset);
-    setLocalDate([date.getDay(), date.getHours(), date.getMinutes()]);
+    date.getMinutes() < 30
+      ? setLocalDate([date.getDay(), date.getHours(), date.getMinutes()])
+      : setLocalDate([date.getDay(), date.getHours() + 1, date.getMinutes()]);
+    // setLocalDate([date.getDay(), date.getHours(), date.getMinutes()]);
   }
   useEffect(() => {
     const fetchEvents = async () => {
