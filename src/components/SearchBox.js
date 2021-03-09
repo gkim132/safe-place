@@ -14,7 +14,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
+function SearchBox({ mapRef, setMarkers, setLocationInfo }) {
   const {
     ready,
     value,
@@ -44,7 +44,7 @@ function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
       const { lat, lng } = await getLatLng(results[0]);
       panTo({ lat, lng });
       setMarkers([{ lat, lng }]);
-      setBasicbasicLocationInfo([
+      setLocationInfo([
         { coordinates: [lat, lng], placeId: results[0].place_id },
       ]);
     } catch (error) {}

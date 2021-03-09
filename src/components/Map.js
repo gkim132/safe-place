@@ -7,26 +7,25 @@ import SearchBox from "./SearchBox";
 const Map = () => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState();
-  const [basicLocationInfo, setBasicbasicLocationInfo] = useState();
+  const [locationInfo, setLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        if (basicLocationInfo) {
-          const place_Id = basicLocationInfo[0].placeId;
+        if (locationInfo) {
+          const place_Id = locationInfo[0].placeId;
           const res = await fetch(`/placeId/${place_Id}`);
           const data = await res.json();
 
           const result = await JSON.parse(JSON.stringify(data));
           await setDetailedLocationInfo(result);
           setSelected(true);
-          console.log("mapEffect :>> ");
         }
       } catch (err) {}
     };
     fetchEvent();
-  }, [basicLocationInfo]);
+  }, [locationInfo]);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -59,7 +58,7 @@ const Map = () => {
       ]);
 
       setSelected(() => true);
-      setBasicbasicLocationInfo(() => [
+      setLocationInfo(() => [
         {
           name: "",
           coordinates: [e.latLng.lat(), e.latLng.lng()],
@@ -79,7 +78,7 @@ const Map = () => {
       <SearchBox
         mapRef={mapRef}
         setMarkers={setMarkers}
-        setBasicbasicLocationInfo={setBasicbasicLocationInfo}
+        setLocationInfo={setLocationInfo}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
