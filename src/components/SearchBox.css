@@ -4,7 +4,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 550px;
+  max-width: 530px;
   z-index: 1;
 }
 
@@ -12,4 +12,25 @@
   padding: 0.5rem;
   font-size: 1rem;
   width: 100%;
+}
+
+.search__box {
+  display: flex;
+}
+
+.search__box__btn {
+  color: black;
+  position: relative;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  right: 2rem;
+  outline: none;
+}
+
+.search__box__btn:hover {
+  color: #1a73e8;
 }
