@@ -42,7 +42,7 @@ const Map = () => {
         setSelected(true);
       }}
       icon={{
-        url: `/blue-marker.svg`,
+        url: `/red-marker.svg`,
         origin: new window.google.maps.Point(0, 0),
         anchor: new window.google.maps.Point(15, 30),
         scaledSize: new window.google.maps.Size(30, 30),
@@ -58,6 +58,7 @@ const Map = () => {
           lng: e.latLng.lng(),
         },
       ]);
+
       setSelected(() => true);
       setBasicbasicLocationInfo(() => [
         {
@@ -69,7 +70,7 @@ const Map = () => {
       ]);
     }
   }, []);
-
+  console.log("markers :>> ", markers);
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
@@ -77,7 +78,11 @@ const Map = () => {
 
   return isLoaded || loadError ? (
     <div>
-      <SearchBox mapRef={mapRef} />
+      <SearchBox
+        mapRef={mapRef}
+        setMarkers={setMarkers}
+        setBasicbasicLocationInfo={setBasicbasicLocationInfo}
+      />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}

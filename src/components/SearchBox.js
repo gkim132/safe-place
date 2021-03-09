@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import "./SearchBox.css";
 
 import {
@@ -15,7 +15,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function SearchBox({ mapRef }) {
+function SearchBox({ mapRef, setMarkers, setBasicbasicLocationInfo }) {
   const {
     ready,
     value,
@@ -39,8 +39,14 @@ function SearchBox({ mapRef }) {
 
     try {
       const results = await getGeocode({ address });
+      console.log("results", results);
+
       const { lat, lng } = await getLatLng(results[0]);
       panTo({ lat, lng });
+      setMarkers([{ lat, lng }]);
+      setBasicbasicLocationInfo([
+        { coordinates: [lat, lng], placeId: results[0].place_id },
+      ]);
     } catch (error) {}
   };
 
