@@ -13,7 +13,7 @@ API_KEY = environ.get("API_KEY")
 #     return {"lat": 43.083982884720356, "lng": -89.43660402022822}
 # ChIJMwrMIKelfDURFATcnSITUWM
 @app.route("/test")
-def index():
+def test():
     return "Test"
 
 
