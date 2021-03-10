@@ -1,1 +1,1 @@
-wwww.safe-place-store.com/
+www.safe-place-store.com
