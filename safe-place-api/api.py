@@ -1,9 +1,11 @@
 from flask import Flask, abort
 from os import environ
 import populartimes
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 API_KEY = environ.get("API_KEY")
 # @app.route("/location")
@@ -14,8 +16,9 @@ API_KEY = environ.get("API_KEY")
 
 @app.route("/placeId/<place_Id>")
 def index(place_Id):
-    if not place_Id:
-        return abort(400)
+    # if not place_Id:
+    #     return abort(400)
+    print("test")
     data = populartimes.get_id(API_KEY, place_Id)
     return data
 

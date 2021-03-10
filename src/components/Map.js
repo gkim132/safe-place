@@ -13,14 +13,16 @@ const Map = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
+        console.log(locationInfo);
         if (locationInfo) {
           const place_Id = locationInfo[0].placeId;
-          const res = await fetch(`/placeId/${place_Id}`);
+          const res = await fetch(`http://127.0.0.1:5000/placeId/${place_Id}`);
           const data = await res.json();
 
           const result = await JSON.parse(JSON.stringify(data));
           await setDetailedLocationInfo(result);
           setSelected(true);
+          console.log("seDetailedLocationInfo :>> ", data);
         }
       } catch (err) {}
     };
