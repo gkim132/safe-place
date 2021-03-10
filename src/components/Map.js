@@ -16,7 +16,9 @@ const Map = () => {
         console.log(locationInfo);
         if (locationInfo) {
           const place_Id = locationInfo[0].placeId;
-          const res = await fetch(`http://127.0.0.1:5000/placeId/${place_Id}`);
+          const res = await fetch(
+            `http://gkim132.pythonanywhere.com/placeId/${place_Id}`
+          );
           const data = await res.json();
 
           const result = await JSON.parse(JSON.stringify(data));
