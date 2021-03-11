@@ -1,6 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+
+  const onEmailChange = (e) => {
+    setSignInEmail(e.target.value);
+  };
+
+  const onPasswordChange = (e) => {
+    setSignInPassword(e.target.value);
+  };
+
+  const onSubmitSignIn = () => {
+    fetch("http://localhost:3030/signin", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: signInEmail,
+        password: signInPassword,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("response :>> ", data);
+      });
+  };
+
   return (
     <article>
       <main>
@@ -9,16 +35,27 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
             <legend>Sign In</legend>
             <div>
               <label htmlFor="email-address">Email</label>
-              <input type="email" name="email-address" id="email-address" />
+              <input
+                type="email"
+                name="email-address"
+                id="email-address"
+                onChange={onEmailChange}
+              />
             </div>
             <div>
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={onPasswordChange}
+              />
             </div>
           </fieldset>
           <div>
             <input
               onClick={() => {
+                onSubmitSignIn();
                 setIsSignedIn(true);
               }}
               type="submit"
