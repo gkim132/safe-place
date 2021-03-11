@@ -27,7 +27,11 @@ function App() {
           setIsSignedIn={setIsSignedIn}
         />
       ) : (
-        <Register setloadUser={setloadUser} setRoute={setRoute} />
+        <Register
+          setloadUser={setloadUser}
+          setRoute={setRoute}
+          setIsSignedIn={setIsSignedIn}
+        />
       )}
     </div>
   );
