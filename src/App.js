@@ -21,7 +21,11 @@ function App() {
           <Map />
         </div>
       ) : route === "signIn" || route === "signOut" ? (
-        <SignIn setloadUser={setloadUser} setRoute={setRoute} />
+        <SignIn
+          setloadUser={setloadUser}
+          setRoute={setRoute}
+          setIsSignedIn={setIsSignedIn}
+        />
       ) : (
         <Register setloadUser={setloadUser} setRoute={setRoute} />
       )}
