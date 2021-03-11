@@ -3,12 +3,14 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
+import MyLocation from "./MyLocation";
 
 const Map = () => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState();
   const [locationInfo, setLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
+  const [myLocationCoord, setMyLocationCoord] = useState([]);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -28,6 +30,11 @@ const Map = () => {
     };
     fetchEvent();
   }, [locationInfo]);
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
+  });
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -70,10 +77,6 @@ const Map = () => {
       ]);
     }
   }, []);
-  const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.REACT_APP_API_KEY,
-  });
 
   return isLoaded || loadError ? (
     <div>
@@ -82,6 +85,7 @@ const Map = () => {
         setMarkers={setMarkers}
         setLocationInfo={setLocationInfo}
       />
+      <MyLocation mapRef={mapRef} setMyLocationCoord={setMyLocationCoord} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
@@ -91,6 +95,21 @@ const Map = () => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        {myLocationCoord && (
+          <Marker
+            // key={ind}
+            position={{
+              lat: Number(myLocationCoord[0]),
+              lng: Number(myLocationCoord[1]),
+            }}
+            icon={{
+              url: `/myLocationMarker.png`,
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 30),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
+        )}
         {locationMarker}
         {detailedLocationInfo && (
           <LocationInfoBox
