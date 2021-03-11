@@ -14,7 +14,13 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function SearchBox({ mapRef, setMarkers, setLocationInfo }) {
+function SearchBox({
+  mapRef,
+  setMarkers,
+  setLocationInfo,
+  myLocationCoord,
+  setMyLocationCoord,
+}) {
   const {
     ready,
     value,
@@ -23,10 +29,14 @@ function SearchBox({ mapRef, setMarkers, setLocationInfo }) {
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      location: { lat: () => 43.073051, lng: () => -89.40123 },
-      radius: 100 * 1000,
+      location: {
+        lat: () => myLocationCoord[0],
+        lng: () => myLocationCoord[1],
+      },
+      radius: 50 * 1000,
     },
   });
+
   const handleButton = () => {
     setValue("");
   };
@@ -47,6 +57,7 @@ function SearchBox({ mapRef, setMarkers, setLocationInfo }) {
       setLocationInfo([
         { coordinates: [lat, lng], placeId: results[0].place_id },
       ]);
+      setMyLocationCoord([lat, lng]);
     } catch (error) {}
   };
 

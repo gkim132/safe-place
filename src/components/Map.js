@@ -11,15 +11,15 @@ const Map = () => {
   const [locationInfo, setLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
   const [myLocationCoord, setMyLocationCoord] = useState([]);
+  const [ismyLocationBtnClicked, setIsmyLocationBtnClicked] = useState(false);
+  const [myCurrentLocationPin, setMyCurrentLocationPin] = useState([]);
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
         if (locationInfo) {
           const place_Id = locationInfo[0].placeId;
-          const res = await fetch(
-            `http://gkim132.pythonanywhere.com/placeId/${place_Id}`
-          );
+          const res = await fetch(`http://127.0.0.1:5000/placeId/${place_Id}`);
           const data = await res.json();
 
           const result = await JSON.parse(JSON.stringify(data));
@@ -75,6 +75,7 @@ const Map = () => {
           time: new Date(),
         },
       ]);
+      setMyLocationCoord([e.latLng.lat(), e.latLng.lng()]);
     }
   }, []);
 
@@ -84,8 +85,15 @@ const Map = () => {
         mapRef={mapRef}
         setMarkers={setMarkers}
         setLocationInfo={setLocationInfo}
+        myLocationCoord={myLocationCoord}
+        setMyLocationCoord={setMyLocationCoord}
       />
-      <MyLocation mapRef={mapRef} setMyLocationCoord={setMyLocationCoord} />
+      <MyLocation
+        mapRef={mapRef}
+        setMyLocationCoord={setMyLocationCoord}
+        setIsmyLocationBtnClicked={setIsmyLocationBtnClicked}
+        setMyCurrentLocationPin={setMyCurrentLocationPin}
+      />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
@@ -95,12 +103,12 @@ const Map = () => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {myLocationCoord && (
+        {ismyLocationBtnClicked && myCurrentLocationPin && (
           <Marker
             // key={ind}
             position={{
-              lat: Number(myLocationCoord[0]),
-              lng: Number(myLocationCoord[1]),
+              lat: Number(myCurrentLocationPin[0]),
+              lng: Number(myCurrentLocationPin[1]),
             }}
             icon={{
               url: `/myLocationMarker.png`,

@@ -1,7 +1,12 @@
 import { useCallback } from "react";
 import "./MyLocation.css";
 
-function MyLocation({ mapRef, setMyLocationCoord }) {
+function MyLocation({
+  mapRef,
+  setMyLocationCoord,
+  setIsmyLocationBtnClicked,
+  setMyCurrentLocationPin,
+}) {
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(16);
@@ -13,15 +18,19 @@ function MyLocation({ mapRef, setMyLocationCoord }) {
         onClick={() => {
           navigator.geolocation.getCurrentPosition(
             (coordinates) => {
-              console.log("coordinates", coordinates);
               panTo({
                 lat: coordinates.coords.latitude,
                 lng: coordinates.coords.longitude,
               });
+              setMyCurrentLocationPin([
+                coordinates.coords.latitude,
+                coordinates.coords.longitude,
+              ]);
               setMyLocationCoord([
                 coordinates.coords.latitude,
                 coordinates.coords.longitude,
               ]);
+              setIsmyLocationBtnClicked(true);
             },
             (error) => null
           );
