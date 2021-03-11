@@ -8,6 +8,18 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [route, setRoute] = useState("signIn");
   const [loadUser, setloadUser] = useState([]);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:3030/");
+        const data = await res.json();
+        console.log("Dummy Data from Node Server: ", data);
+      } catch (err) {}
+    };
+    fetchEvent();
+  }, []);
+
   return (
     <div>
       <Navigation
