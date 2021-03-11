@@ -23,7 +23,11 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("response :>> ", data);
+        console.log("Sign In Response: ", data);
+        if (data.id) {
+          setloadUser(data);
+          setRoute("home");
+        }
       });
   };
 

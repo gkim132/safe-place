@@ -30,7 +30,7 @@ function App() {
 
       {isSignedIn === true ? (
         <div>
-          <Map />
+          <Map loadUser={loadUser} />
         </div>
       ) : route === "signIn" || route === "signOut" ? (
         <SignIn
