@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, memo, useRef } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+// import store from 'store2'
 
 import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
@@ -21,10 +22,25 @@ const Map = ({ loadUser, setloadUser }) => {
       try {
         if (locationInfo) {
           const place_Id = locationInfo[0].placeId;
-          const res = await fetch(`http://127.0.0.1:5000/placeId/${place_Id}`);
-          const data = await res.json();
+
+          // todo: check the store
+          // todo: don't make the call if we have result in a store
+          let data;
+          // let data = store(`place_${place_id}`);
+
+          if (!data) {
+            const res = await fetch(
+              `http://127.0.0.1:5000/placeId/${place_Id}`
+            );
+            data = await res.json();
+
+            // todo: keep result in a store
+            // store(`place_${place_id}`, {...data, _cacheTimestamp: Date.now() });
+          }
+
           await setIsLoading(false);
           const result = JSON.parse(JSON.stringify(data));
+          console.log("detailedLocationInfo", data);
           setDetailedLocationInfo(result);
           setSelected(true);
         }
@@ -44,10 +60,28 @@ const Map = ({ loadUser, setloadUser }) => {
   }, []);
 
   const userFavorites = loadUser?.favorites
-    ? loadUser.favorites.map((f) => f.coordinates)
+    ? loadUser.favorites //.map((f) => f.coordinates)
     : [];
 
-  const locationMarker = [...markers, ...userFavorites].map((marker, ind) => (
+  const favoriteMarkers = userFavorites.map((fav, ind) => (
+    <Marker
+      key={`${ind}_${fav.coordinates.lat}_${fav.coordinates.lng}`}
+      position={{ lat: fav.coordinates.lat, lng: fav.coordinates.lng }}
+      onClick={() => {
+        setLocationInfo([{ placeId: fav.placeId }]);
+        setSelected(true);
+        setMarkers([]);
+      }}
+      icon={{
+        url: `/yellow-marker.svg`,
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 30),
+        scaledSize: new window.google.maps.Size(30, 30),
+      }}
+    />
+  ));
+
+  const locationMarker = markers.map((marker, ind) => (
     <Marker
       key={`${ind}_${marker.lat}_${marker.lng}`}
       position={{ lat: marker.lat, lng: marker.lng }}
@@ -62,6 +96,15 @@ const Map = ({ loadUser, setloadUser }) => {
       }}
     />
   ));
+
+  const selectedMarkerInfo = [...userFavorites, ...markers].find(
+    (marker) => `${marker.lat}_${marker.lng}` === selected
+  );
+
+  console.log("markers:", userFavorites, markers);
+  console.log("selectedMarkerInfo:", selectedMarkerInfo);
+
+  const markerComponents = [...locationMarker, ...favoriteMarkers];
 
   const onMapClick = useCallback((e) => {
     if (e.placeId) {
@@ -124,12 +167,22 @@ const Map = ({ loadUser, setloadUser }) => {
             }}
           />
         )}
-        {locationMarker}
+        {/* {favoriteMarker} */}
+        {markerComponents}
         {detailedLocationInfo && (
           <LocationInfoBox
             selected={selected}
             setSelected={setSelected}
             detailedLocationInfo={detailedLocationInfo}
+            isFavorite={
+              userFavorites &&
+              userFavorites.find(
+                (fav) =>
+                  fav.coordinates.lat ===
+                    detailedLocationInfo.coordinates.lat &&
+                  fav.coordinates.lng === detailedLocationInfo.coordinates.lng
+              )
+            }
             setloadUser={setloadUser}
             loadUser={loadUser}
             isLoading={isLoading}
