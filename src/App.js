@@ -8,13 +8,11 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [route, setRoute] = useState("signIn");
   const [loadUser, setloadUser] = useState({
-    user: {
-      id: "",
-      name: "",
-      email: "",
-      joined: "",
-      favorites: [],
-    },
+    id: "",
+    name: "",
+    email: "",
+    joined: "",
+    favorites: [],
   });
 
   useEffect(() => {

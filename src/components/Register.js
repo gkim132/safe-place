@@ -18,7 +18,6 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
   };
 
   const onSubmitRegister = () => {
-    // console.log(this.state);
     fetch("http://localhost:3030/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },

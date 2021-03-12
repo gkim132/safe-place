@@ -18,18 +18,20 @@ const Map = ({ loadUser, setloadUser }) => {
   const [myLocationCoord, setMyLocationCoord] = useState([]);
   const [ismyLocationBtnClicked, setIsmyLocationBtnClicked] = useState(false);
   const [myCurrentLocationPin, setMyCurrentLocationPin] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
+      setIsLoading(true);
       try {
         if (locationInfo) {
           const place_Id = locationInfo[0].placeId;
           const res = await fetch(`http://127.0.0.1:5000/placeId/${place_Id}`);
           const data = await res.json();
-
-          const result = await JSON.parse(JSON.stringify(data));
+          await setIsLoading(false);
+          const result = JSON.parse(JSON.stringify(data));
           console.log(data);
-          await setDetailedLocationInfo(result);
+          setDetailedLocationInfo(result);
           setSelected(true);
         }
       } catch (err) {}
@@ -47,9 +49,15 @@ const Map = ({ loadUser, setloadUser }) => {
     mapRef.current = map;
   }, []);
 
-  const locationMarker = markers.map((marker, ind) => (
+  const userFavorites = loadUser?.favorites
+    ? loadUser.favorites.map((f) => f.coordinates)
+    : [];
+  console.log("markers:", markers);
+  console.log("userFavorites:", userFavorites);
+
+  const locationMarker = [...markers, ...userFavorites].map((marker, ind) => (
     <Marker
-      key={ind}
+      key={`${ind}_${marker.lat}_${marker.lng}`}
       position={{ lat: marker.lat, lng: marker.lng }}
       onClick={() => {
         setSelected(true);
@@ -132,6 +140,7 @@ const Map = ({ loadUser, setloadUser }) => {
             detailedLocationInfo={detailedLocationInfo}
             setloadUser={setloadUser}
             loadUser={loadUser}
+            isLoading={isLoading}
           />
         )}
       </GoogleMap>
