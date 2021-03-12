@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback, memo, useRef } from "react";
-import {
-  Data,
-  GoogleMap,
-  Marker,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
@@ -30,7 +25,6 @@ const Map = ({ loadUser, setloadUser }) => {
           const data = await res.json();
           await setIsLoading(false);
           const result = JSON.parse(JSON.stringify(data));
-          console.log(data);
           setDetailedLocationInfo(result);
           setSelected(true);
         }
@@ -52,8 +46,6 @@ const Map = ({ loadUser, setloadUser }) => {
   const userFavorites = loadUser?.favorites
     ? loadUser.favorites.map((f) => f.coordinates)
     : [];
-  console.log("markers:", markers);
-  console.log("userFavorites:", userFavorites);
 
   const locationMarker = [...markers, ...userFavorites].map((marker, ind) => (
     <Marker

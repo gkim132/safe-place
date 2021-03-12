@@ -13,7 +13,6 @@ const LocationInfoBox = ({
 
   useEffect(() => {
     const fetchEvents = async () => {
-      console.log("detailedLocationInfo", detailedLocationInfo);
       const timestamp = Math.floor(Date.now() / 1000);
       const res = await fetch(
         `https://maps.googleapis.com/maps/api/timezone/json?location=${detailedLocationInfo.coordinates.lat},${detailedLocationInfo.coordinates.lng}&timestamp=${timestamp}&key=${process.env.REACT_APP_API_KEY}`
@@ -26,15 +25,7 @@ const LocationInfoBox = ({
   }, []);
 
   const onSaveLocationclick = () => {
-    console.log("loadUser", loadUser);
-
     setloadUser((user) => {
-      console.log("USER:", user);
-      console.log(
-        "detailedLocationInfo.coordinates:",
-        detailedLocationInfo.coordinates,
-        detailedLocationInfo
-      );
       return {
         ...user,
         favorites: [...user.favorites, detailedLocationInfo],
@@ -52,7 +43,6 @@ const LocationInfoBox = ({
     })
       .then((response) => response.json())
       .then((user) => {
-        console.log("Save Location Response: ", user);
         setloadUser(user);
       });
   };
@@ -123,7 +113,6 @@ const LocationInfoBox = ({
         <button
           className="saveBtn"
           onClick={() => {
-            console.log("save clicked");
             onSaveLocationclick();
           }}
         >
