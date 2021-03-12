@@ -24,8 +24,9 @@ const LocationInfoBox = ({
     fetchEvents();
   }, []);
 
-  const onSaveLocationclick = () => {
+  const handleSaveLocationclick = () => {
     setloadUser((user) => {
+      console.log(user);
       return {
         ...user,
         favorites: [...user.favorites, detailedLocationInfo],
@@ -85,39 +86,41 @@ const LocationInfoBox = ({
         {isLoading ? (
           <img className="spinner" src="/spinner.svg" alt="spinner-solid" />
         ) : (
-          <ul>
-            <li>
-              Name: <strong>{detailedLocationInfo.name}</strong>
-            </li>
-            <br></br>
-            <li>
-              Address: <strong>{detailedLocationInfo.address}</strong>
-            </li>
-            <br></br>
-            <li>
-              <div className="occupancy">
-                Current Occupancy:{" "}
-                <div className="occupancy__number">
-                  {detailedLocationInfo.populartimes ? (
-                    occupancyColor()
-                  ) : (
-                    <div className="unknown">Unknown</div>
-                  )}
+          <div>
+            <ul>
+              <li>
+                Name: <strong>{detailedLocationInfo.name}</strong>
+              </li>
+              <br></br>
+              <li>
+                Address: <strong>{detailedLocationInfo.address}</strong>
+              </li>
+              <br></br>
+              <li>
+                <div className="occupancy">
+                  Current Occupancy:{" "}
+                  <div className="occupancy__number">
+                    {detailedLocationInfo.populartimes ? (
+                      occupancyColor()
+                    ) : (
+                      <div className="unknown">Unknown</div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+            <div className="action">
+              <button
+                className="saveBtn"
+                onClick={() => {
+                  handleSaveLocationclick();
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         )}
-      </div>
-      <div className="action">
-        <button
-          className="saveBtn"
-          onClick={() => {
-            onSaveLocationclick();
-          }}
-        >
-          Save
-        </button>
       </div>
     </div>
   ) : null;
