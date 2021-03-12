@@ -5,7 +5,7 @@ import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
 import MyLocation from "./MyLocation";
 
-const Map = () => {
+const Map = ({ loadUser }) => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState();
   const [locationInfo, setLocationInfo] = useState();

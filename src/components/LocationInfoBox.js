@@ -46,7 +46,7 @@ const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
         <button
           className="btn"
           onClick={() => {
-            setSelected("");
+            setSelected(false);
           }}
         >
           <i className="fa fa-close"></i>

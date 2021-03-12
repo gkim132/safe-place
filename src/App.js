@@ -7,7 +7,15 @@ import Register from "./components/Register";
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [route, setRoute] = useState("signIn");
-  const [loadUser, setloadUser] = useState([]);
+  const [loadUser, setloadUser] = useState({
+    user: {
+      id: "",
+      name: "",
+      email: "",
+      joined: "",
+      favorites: [],
+    },
+  });
 
   useEffect(() => {
     const fetchEvent = async () => {
