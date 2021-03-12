@@ -17,26 +17,27 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
     setRegisterPassword(event.target.value);
   };
 
-  // const onSubmitRegister = () => {
-  //   // console.log(this.state);
-  //   fetch("http://localhost:3030/register", {
-  //     method: "post",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       email: registerEmail,
-  //       password: registerPassword,
-  //       name: registerName,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((user) => {
-  //       if (user.id) {
-  //         setloadUser(user);
-  //         setRoute("map");
-  //         console.log("Register respose:", user);
-  //       }
-  //     });
-  // };
+  const onSubmitRegister = () => {
+    // console.log(this.state);
+    fetch("http://localhost:3030/register", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: registerEmail,
+        password: registerPassword,
+        name: registerName,
+        joined: new Date(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        if (user.id) {
+          setloadUser(user);
+          setRoute("map");
+          console.log("Register respose:", user);
+        }
+      });
+  };
   return (
     <article>
       <main>
@@ -76,7 +77,7 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
               type="submit"
               value="Register"
               onClick={() => {
-                // onSubmitRegister();
+                onSubmitRegister();
                 setIsSignedIn(true);
               }}
             />
