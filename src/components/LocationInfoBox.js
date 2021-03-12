@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import "./LocationInfoBox.css";
 
-const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
+const LocationInfoBox = ({
+  selected,
+  setSelected,
+  detailedLocationInfo,
+  setloadUser,
+  loadUser,
+}) => {
   const [localDate, setLocalDate] = useState();
 
   useEffect(() => {
@@ -17,6 +23,23 @@ const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
 
     fetchEvents();
   }, []);
+
+  const onSaveLocationclick = () => {
+    console.log("loadUser", loadUser);
+    fetch("http://localhost:3030/favorites", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        placeId: detailedLocationInfo.id,
+        coordinates: detailedLocationInfo.coordinates,
+        email: loadUser.email,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Save Location Response: ", data);
+      });
+  };
 
   function calcTime(offset) {
     const d = new Date();
@@ -52,30 +75,58 @@ const LocationInfoBox = ({ selected, setSelected, detailedLocationInfo }) => {
           <i className="fa fa-close"></i>
         </button>
       </div>
-      <ul>
-        <li>
-          Name: <strong>{detailedLocationInfo.name}</strong>
-        </li>
-        <br></br>
-        <li>
-          Address: <strong>{detailedLocationInfo.address}</strong>
-        </li>
-        <br></br>
-        <li>
-          <div className="occupancy">
-            Current Occupancy:{" "}
-            <div className="occupancy__number">
-              {detailedLocationInfo.populartimes ? (
-                occupancyColor()
-              ) : (
-                <div className="unknown">Unknown</div>
-              )}
+      <div>
+        <ul>
+          <li>
+            Name: <strong>{detailedLocationInfo.name}</strong>
+          </li>
+          <br></br>
+          <li>
+            Address: <strong>{detailedLocationInfo.address}</strong>
+          </li>
+          <br></br>
+          <li>
+            <div className="occupancy">
+              Current Occupancy:{" "}
+              <div className="occupancy__number">
+                {detailedLocationInfo.populartimes ? (
+                  occupancyColor()
+                ) : (
+                  <div className="unknown">Unknown</div>
+                )}
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <button
+          className="saveBtn"
+          onClick={() => {
+            console.log("save clicked");
+            onSaveLocationclick();
+          }}
+        >
+          Save
+        </button>
+      </div>
     </div>
   ) : null;
 };
 
 export default LocationInfoBox;
+
+/** Popular time api respose */
+// {
+// address: "402 N Thornton Ave, Madison, WI 53703, USA"
+// coordinates: {lat: 43.09204070000001, lng: -89.3671462}
+// id: "ChIJ4S4bKH1TBogRoJs0IEFgQXk"
+// international_phone_number: "+1 608-266-4711"
+// name: "Tenney Park"
+// populartimes: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+// rating: 4.6
+// rating_n: 547
+// time_spent: (2) [60, 60]
+// types: (4) ["park", "tourist_attraction", "point_of_interest", "establishment"]
+// __proto__: Object
+// }

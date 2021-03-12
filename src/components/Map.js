@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useCallback, memo, useRef } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import {
+  Data,
+  GoogleMap,
+  Marker,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 
 import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
 import MyLocation from "./MyLocation";
 
-const Map = ({ loadUser }) => {
+const Map = ({ loadUser, setloadUser }) => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState();
   const [locationInfo, setLocationInfo] = useState();
@@ -23,6 +28,7 @@ const Map = ({ loadUser }) => {
           const data = await res.json();
 
           const result = await JSON.parse(JSON.stringify(data));
+          console.log(data);
           await setDetailedLocationInfo(result);
           setSelected(true);
         }
@@ -124,6 +130,8 @@ const Map = ({ loadUser }) => {
             selected={selected}
             setSelected={setSelected}
             detailedLocationInfo={detailedLocationInfo}
+            setloadUser={setloadUser}
+            loadUser={loadUser}
           />
         )}
       </GoogleMap>

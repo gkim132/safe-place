@@ -27,6 +27,7 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
         if (data.id) {
           setloadUser(data);
           setRoute("home");
+          setIsSignedIn(true);
         }
       });
   };
@@ -60,7 +61,6 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
             <input
               onClick={() => {
                 onSubmitSignIn();
-                setIsSignedIn(true);
               }}
               type="submit"
               value="Sign in"
