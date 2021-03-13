@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import "./SearchBox.css";
 
 import {
@@ -36,6 +36,16 @@ function SearchBox({
       radius: 50 * 1000,
     },
   });
+
+  const handleMyLocationCoord = useCallback(
+    (coord) => {
+      return {
+        lat: () => coord[0],
+        lng: () => coord[1],
+      };
+    },
+    [myLocationCoord]
+  );
 
   const handleButton = () => {
     setValue("");

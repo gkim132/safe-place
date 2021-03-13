@@ -1,6 +1,6 @@
 .search {
   position: absolute;
-  top: 1rem;
+  top: 32px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -16,18 +16,21 @@
 
 .search__box {
   display: flex;
+  justify-content: center;
+  margin: 0 10px;
 }
 
 .search__box__btn {
   color: black;
-  position: relative;
+  position: absolute;
   height: auto;
   background-color: rgba(255, 255, 255, 0);
   font-size: 1.2rem;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  right: 2rem;
+  right: 15px;
+  top: 5px;
   outline: none;
 }
 

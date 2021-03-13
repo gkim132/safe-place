@@ -1,9 +1,10 @@
 import React from "react";
+import "./Navigation.css";
 
 const Navigation = ({ setRoute, isSignedIn, setIsSignedIn }) => {
   if (isSignedIn) {
     return (
-      <nav style={{ display: "flex", justifyContent: "flex-end" }}>
+      <nav className="nav">
         <button
           onClick={() => {
             setRoute("signIn");

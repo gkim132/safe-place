@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, memo, useRef } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-// import store from 'store2'
+import store from "store2";
 
 import LocationInfoBox from "./LocationInfoBox";
 import SearchBox from "./SearchBox";
@@ -11,40 +11,46 @@ const Map = ({ loadUser, setloadUser }) => {
   const [selected, setSelected] = useState();
   const [locationInfo, setLocationInfo] = useState();
   const [detailedLocationInfo, setDetailedLocationInfo] = useState();
-  const [myLocationCoord, setMyLocationCoord] = useState([]);
+  const [myLocationCoord, setMyLocationCoord] = useState([
+    43.073051,
+    -89.40123,
+  ]);
   const [ismyLocationBtnClicked, setIsmyLocationBtnClicked] = useState(false);
   const [myCurrentLocationPin, setMyCurrentLocationPin] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("locationInfo changed:", locationInfo);
     const fetchEvent = async () => {
       setIsLoading(true);
       try {
         if (locationInfo) {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           const place_Id = locationInfo[0].placeId;
 
-          // todo: check the store
-          // todo: don't make the call if we have result in a store
           let data;
-          // let data = store(`place_${place_id}`);
-
-          if (!data) {
+          data = store(`place_${place_Id}`);
+          let expired = data && Date.now() - data.cacheTimestamp > 900000; // 15mins
+          if (!data || expired) {
+            console.log("fETCHING", place_Id);
             const res = await fetch(
               `http://127.0.0.1:5000/placeId/${place_Id}`
             );
             data = await res.json();
-
-            // todo: keep result in a store
-            // store(`place_${place_id}`, {...data, _cacheTimestamp: Date.now() });
+            store(`place_${place_Id}`, { ...data, cacheTimestamp: Date.now() });
+          } else {
+            console.log("CACHED", place_Id);
           }
-
+          console.log("DATA:", data);
           await setIsLoading(false);
           const result = JSON.parse(JSON.stringify(data));
           console.log("detailedLocationInfo", data);
           setDetailedLocationInfo(result);
           setSelected(true);
         }
-      } catch (err) {}
+      } catch (err) {
+        console.log("ERROR", err);
+      }
     };
     fetchEvent();
   }, [locationInfo]);
@@ -59,9 +65,7 @@ const Map = ({ loadUser, setloadUser }) => {
     mapRef.current = map;
   }, []);
 
-  const userFavorites = loadUser?.favorites
-    ? loadUser.favorites //.map((f) => f.coordinates)
-    : [];
+  const userFavorites = loadUser?.favorites ? loadUser.favorites : [];
 
   const favoriteMarkers = userFavorites.map((fav, ind) => (
     <Marker
@@ -167,7 +171,6 @@ const Map = ({ loadUser, setloadUser }) => {
             }}
           />
         )}
-        {/* {favoriteMarker} */}
         {markerComponents}
         {detailedLocationInfo && (
           <LocationInfoBox
