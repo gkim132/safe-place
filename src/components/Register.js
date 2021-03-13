@@ -38,49 +38,53 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
       });
   };
   return (
-    <article>
+    <article className="SignIn Register">
       <main>
         <div>
           <fieldset id="sign_up">
             <legend>Register</legend>
-            <div>
-              <label htmlFor="name">Name</label>
+            <h5>Safe Place</h5>
+            <div className="control">
               <input
                 type="text"
                 name="name"
                 id="name"
                 onChange={onNameChange}
+                placeholder="Name"
               />
             </div>
-            <div>
-              <label htmlFor="email-address">Email</label>
+            <div className="control">
               <input
                 type="email"
                 name="email-address"
                 id="email-address"
                 onChange={onEmailChange}
+                placeholder="Email"
               />
             </div>
-            <div>
-              <label htmlFor="password">Password</label>
+            <div className="control">
               <input
                 type="password"
                 name="password"
                 id="password"
                 onChange={onPasswordChange}
+                placeholder="Password"
               />
             </div>
+            <div className="actionButtons">
+              <div></div>
+              <div>
+                <input
+                  type="submit"
+                  value="Register"
+                  onClick={() => {
+                    onSubmitRegister();
+                    setIsSignedIn(true);
+                  }}
+                />
+              </div>
+            </div>
           </fieldset>
-          <div>
-            <input
-              type="submit"
-              value="Register"
-              onClick={() => {
-                onSubmitRegister();
-                setIsSignedIn(true);
-              }}
-            />
-          </div>
         </div>
       </main>
     </article>

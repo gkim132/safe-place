@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SignIn.css";
 
 const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
   const [signInEmail, setSignInEmail] = useState("");
@@ -33,42 +34,45 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
   };
 
   return (
-    <article>
+    <article className="SignIn">
       <main>
         <div>
           <fieldset id="sign_up">
             <legend>Sign In</legend>
-            <div>
-              <label htmlFor="email-address">Email</label>
+            <h5>Safe Place</h5>
+            <div className="control">
               <input
                 type="email"
                 name="email-address"
                 id="email-address"
                 onChange={onEmailChange}
+                placeholder="Email"
               />
             </div>
-            <div>
-              <label htmlFor="password">Password</label>
+            <div className="control">
               <input
                 type="password"
                 name="password"
                 id="password"
                 onChange={onPasswordChange}
+                placeholder="Password"
               />
             </div>
+            <div className="actionButtons">
+              <div>
+                <input
+                  onClick={() => {
+                    onSubmitSignIn();
+                  }}
+                  type="submit"
+                  value="Sign in"
+                />
+              </div>
+              <div>
+                <button onClick={() => setRoute("register")}>Register</button>
+              </div>
+            </div>
           </fieldset>
-          <div>
-            <input
-              onClick={() => {
-                onSubmitSignIn();
-              }}
-              type="submit"
-              value="Sign in"
-            />
-          </div>
-          <div>
-            <button onClick={() => setRoute("register")}>Register</button>
-          </div>
         </div>
       </main>
     </article>

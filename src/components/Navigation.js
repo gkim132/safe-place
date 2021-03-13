@@ -17,7 +17,7 @@ const Navigation = ({ setRoute, isSignedIn, setIsSignedIn }) => {
     );
   } else {
     return (
-      <nav style={{ display: "flex", justifyContent: "flex-end" }}>
+      <nav className="nav navLogin">
         <button
           onClick={() => {
             setRoute("signIn");

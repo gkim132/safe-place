@@ -33,10 +33,14 @@ const LocationInfoBox = ({
 
   const handleSaveLocationclick = () => {
     setloadUser((user) => {
-      console.log(user);
+      console.log("dfadfasdfasdfasdf", user);
+      console.log("dfadfasdfasdfasdf", detailedLocationInfo);
+
+      const userFavorites = user?.favorites || [];
+
       return {
         ...user,
-        favorites: [...user.favorites, detailedLocationInfo],
+        favorites: [...userFavorites, detailedLocationInfo],
       };
     });
 
@@ -50,8 +54,23 @@ const LocationInfoBox = ({
       }),
     })
       .then((response) => response.json())
-      .then((user) => {
-        setloadUser(user);
+      .then((favorites) => {
+        console.log("handleSaveLocationconclick", favorites);
+        console.log(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<loadUser>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+          loadUser
+        );
+        setloadUser((state) => ({
+          ...state,
+          favorites: favorites.map((fav) => ({
+            ...fav,
+            coordinates: { lat: +fav.lat, lng: +fav.lng },
+          })),
+        }));
+        console.log(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<loadUser>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+          loadUser
+        );
       });
   };
   const handleDeleteSaveLocationclick = () => {
@@ -65,8 +84,14 @@ const LocationInfoBox = ({
       }),
     })
       .then((response) => response.json())
-      .then((user) => {
-        setloadUser(user);
+      .then((favorites) => {
+        setloadUser((state) => ({
+          ...state,
+          favorites: favorites.map((fav) => ({
+            ...fav,
+            coordinates: { lat: +fav.lat, lng: +fav.lng },
+          })),
+        }));
       });
   };
 
