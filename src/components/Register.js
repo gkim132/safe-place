@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import "./Register.css";
 
 function Register({ setloadUser, setRoute, setIsSignedIn }) {
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(true);
   const onNameChange = (event) => {
     setRegisterName(event.target.value);
   };
@@ -30,9 +31,14 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
     })
       .then((response) => response.json())
       .then((user) => {
-        if (user.id) {
+        console.log("before:", user);
+        if (user !== "Register Error" && user.id) {
+          console.log("pass: ", user);
           setloadUser(user);
           setRoute("map");
+          setIsSignedIn(true);
+        } else {
+          setIsRegisterSuccess(false);
         }
       });
   };
@@ -70,6 +76,11 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
                 placeholder="Password"
               />
             </div>
+            {!isRegisterSuccess && (
+              <div>
+                <p>That email is taken. Try another.</p>
+              </div>
+            )}
             <div className="actionButtons">
               <div></div>
               <div>
@@ -78,7 +89,6 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
                   value="Register"
                   onClick={() => {
                     onSubmitRegister();
-                    setIsSignedIn(true);
                   }}
                 />
               </div>

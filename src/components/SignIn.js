@@ -4,6 +4,7 @@ import "./SignIn.css";
 const SignIn = ({ setloadUser, setRoute, setIsSignedIn, loadUser }) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
+  const [isSignInSuccess, setIsSignInSuccess] = useState(true);
 
   const onEmailChange = (e) => {
     setSignInEmail(e.target.value);
@@ -28,6 +29,8 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn, loadUser }) => {
           setloadUser(data);
           setRoute("home");
           setIsSignedIn(true);
+        } else {
+          setIsSignInSuccess(false);
         }
       });
   };
@@ -57,7 +60,15 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn, loadUser }) => {
                 placeholder="Password"
               />
             </div>
+            {!isSignInSuccess && (
+              <div>
+                <p>The email or password you entered is incorrect.</p>
+              </div>
+            )}
             <div className="actionButtons">
+              <div>
+                <button onClick={() => setRoute("register")}>Register</button>
+              </div>
               <div>
                 <input
                   onClick={() => {
@@ -66,9 +77,6 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn, loadUser }) => {
                   type="submit"
                   value="Sign in"
                 />
-              </div>
-              <div>
-                <button onClick={() => setRoute("register")}>Register</button>
               </div>
             </div>
           </fieldset>
