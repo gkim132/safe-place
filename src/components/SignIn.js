@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import "./SignIn.css";
 
-const SignIn = ({
-  setloadUser,
-  setRoute,
-  setIsSignedIn,
-  detailedLocationInfo,
-  loadUser,
-}) => {
+const SignIn = ({ setloadUser, setRoute, setIsSignedIn, loadUser }) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 

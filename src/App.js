@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Map from "./components/Map";
 import Navigation from "./components/Navigation";
 import SignIn from "./components/SignIn";
@@ -14,16 +14,6 @@ function App() {
     joined: "",
     favorites: [],
   });
-
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const res = await fetch("http://127.0.0.1:3030/");
-        const data = await res.json();
-      } catch (err) {}
-    };
-    fetchEvent();
-  }, []);
 
   return (
     <div>

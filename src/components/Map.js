@@ -94,10 +94,6 @@ const Map = ({ loadUser, setloadUser }) => {
     />
   ));
 
-  const selectedMarkerInfo = [...userFavorites, ...markers].find(
-    (marker) => `${marker.lat}_${marker.lng}` === selected
-  );
-
   const markerComponents = [...locationMarker, ...favoriteMarkers];
 
   const onMapClick = useCallback((e) => {

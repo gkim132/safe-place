@@ -65,25 +65,42 @@
 
 .saveBtn {
   display: inline-block;
-  padding: 0.3em 1.2em;
+  padding: 0.25em 1.2em;
   margin: 0 0.3em 0.3em 0;
   border-radius: 2em;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-  font-weight: 300;
+  font-size: 0.9em;
+  font-weight: 500;
   color: white;
   background-color: #4eb5f1;
   text-align: center;
   transition: all 0.2s;
   outline: none;
   border-color: white;
-  border: 3px solid #4cc53a;
+  border: 3px solid #4eb5f1;
+  cursor: pointer;
 }
 .saveBtn:hover {
   background-color: #4095c6;
+  border: 3px solid #4095c6;
 }
 .saveBtn:active {
-  background-color: red;
+  background-color: #4eb5f1;
+  border: 3px solid #4eb5f1;
+}
+
+.delete {
+  background-color: #ed7547;
+  border: 3px solid #ed7547;
+}
+.delete:hover {
+  background-color: #d64c36;
+  border: 3px solid #d64c36;
+}
+.delete:active {
+  background-color: #ed7547;
+  border: 3px solid #ed7547;
 }
 
 .action {

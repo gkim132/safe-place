@@ -137,12 +137,12 @@ const LocationInfoBox = ({
             <div className="action">
               {isFavorite ? (
                 <button
-                  className="saveBtn"
+                  className="saveBtn delete"
                   onClick={() => {
                     handleDeleteSaveLocationclick();
                   }}
                 >
-                  Saved
+                  Delete
                 </button>
               ) : (
                 <button
