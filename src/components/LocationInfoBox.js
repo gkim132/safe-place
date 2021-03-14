@@ -38,7 +38,7 @@ const LocationInfoBox = ({
         favorites: [...userFavorites, detailedLocationInfo],
       };
     });
-    fetch("http://localhost:3030/favorites", {
+    fetch("https://safe-place-nodejs-backend.herokuapp.com/favorites", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -59,7 +59,7 @@ const LocationInfoBox = ({
       });
   };
   const handleDeleteSaveLocationclick = () => {
-    fetch("http://localhost:3030/delete", {
+    fetch("https://safe-place-nodejs-backend.herokuapp.com/delete", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -19,7 +19,7 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
   };
 
   const onSubmitRegister = () => {
-    fetch("http://localhost:3030/register", {
+    fetch("https://safe-place-nodejs-backend.herokuapp.com/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
