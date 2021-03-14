@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./SignIn.css";
 
-const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
+const SignIn = ({
+  setloadUser,
+  setRoute,
+  setIsSignedIn,
+  detailedLocationInfo,
+  loadUser,
+}) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
@@ -14,6 +20,15 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
   };
 
   const onSubmitSignIn = () => {
+    // setloadUser((user) => {
+    //   const userFavorites = user?.favorites || [];
+
+    //   return {
+    //     ...user,
+    //     favorites: [...userFavorites],
+    //   };
+    // });
+    console.log(loadUser);
     fetch("http://localhost:3030/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -25,8 +40,18 @@ const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Sign In Response: ", data);
-        if (data.id) {
+        if ((data !== "Wrong Credentials" && data.length > 0) || data.email) {
+          console.log("Signnnnnnnnnnnnnnnnnnnnnnnnnnnn", data);
+          console.log("Signnnnnnnnnnnnnnnnnnnnnnnnnnnn", loadUser);
+          // setloadUser((state) => ({
+          //   ...state,
+          //   favorites: favorites.map((fav) => ({
+          //     ...fav,
+          //     coordinates: { lat: +fav.lat, lng: +fav.lng },
+          //   })),
+          // }));
           setloadUser(data);
+          console.log("Signnnnn123123123nnn123nn", loadUser);
           setRoute("home");
           setIsSignedIn(true);
         }

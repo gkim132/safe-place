@@ -20,7 +20,6 @@ function App() {
       try {
         const res = await fetch("http://127.0.0.1:3030/");
         const data = await res.json();
-        console.log("Dummy Data from Node Server: ", data);
       } catch (err) {}
     };
     fetchEvent();
@@ -43,6 +42,7 @@ function App() {
           setloadUser={setloadUser}
           setRoute={setRoute}
           setIsSignedIn={setIsSignedIn}
+          loadUser={loadUser}
         />
       ) : (
         <Register

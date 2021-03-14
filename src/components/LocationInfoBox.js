@@ -11,7 +11,7 @@ const LocationInfoBox = ({
   isFavorite,
 }) => {
   const [localDate, setLocalDate] = useState();
-
+  console.log("isFavorite: ", isFavorite);
   useEffect(() => {
     const fetchEvents = async () => {
       const timestamp = Math.floor(Date.now() / 1000);
@@ -33,17 +33,13 @@ const LocationInfoBox = ({
 
   const handleSaveLocationclick = () => {
     setloadUser((user) => {
-      console.log("dfadfasdfasdfasdf", user);
-      console.log("dfadfasdfasdfasdf", detailedLocationInfo);
-
       const userFavorites = user?.favorites || [];
-
       return {
         ...user,
         favorites: [...userFavorites, detailedLocationInfo],
       };
     });
-
+    console.log("Save / detailedLocationInfo:", detailedLocationInfo);
     fetch("http://localhost:3030/favorites", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -56,10 +52,7 @@ const LocationInfoBox = ({
       .then((response) => response.json())
       .then((favorites) => {
         console.log("handleSaveLocationconclick", favorites);
-        console.log(
-          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<loadUser>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
-          loadUser
-        );
+
         setloadUser((state) => ({
           ...state,
           favorites: favorites.map((fav) => ({
@@ -67,10 +60,6 @@ const LocationInfoBox = ({
             coordinates: { lat: +fav.lat, lng: +fav.lng },
           })),
         }));
-        console.log(
-          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<loadUser>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
-          loadUser
-        );
       });
   };
   const handleDeleteSaveLocationclick = () => {

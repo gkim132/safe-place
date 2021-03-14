@@ -20,31 +20,25 @@ const Map = ({ loadUser, setloadUser }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("locationInfo changed:", locationInfo);
     const fetchEvent = async () => {
       setIsLoading(true);
       try {
         if (locationInfo) {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           const place_Id = locationInfo[0].placeId;
 
           let data;
           data = store(`place_${place_Id}`);
           let expired = data && Date.now() - data.cacheTimestamp > 900000; // 15mins
           if (!data || expired) {
-            console.log("fETCHING", place_Id);
             const res = await fetch(
               `http://127.0.0.1:5000/placeId/${place_Id}`
             );
             data = await res.json();
             store(`place_${place_Id}`, { ...data, cacheTimestamp: Date.now() });
           } else {
-            console.log("CACHED", place_Id);
           }
-          console.log("DATA:", data);
           await setIsLoading(false);
           const result = JSON.parse(JSON.stringify(data));
-          console.log("detailedLocationInfo", data);
           setDetailedLocationInfo(result);
           setSelected(true);
         }
@@ -66,13 +60,14 @@ const Map = ({ loadUser, setloadUser }) => {
   }, []);
 
   const userFavorites = loadUser?.favorites ? loadUser.favorites : [];
-
+  console.log("userFav:", userFavorites);
+  console.log("Ture or False ", !userFavorites.length);
   const favoriteMarkers = userFavorites.map((fav, ind) => (
     <Marker
-      key={`${ind}_${fav.coordinates.lat}_${fav.coordinates.lng}`}
-      position={{ lat: fav.coordinates.lat, lng: fav.coordinates.lng }}
+      key={`${ind}_${fav.lat}_${fav.lng}`}
+      position={{ lat: +fav.lat, lng: +fav.lng }}
       onClick={() => {
-        setLocationInfo([{ placeId: fav.placeId }]);
+        setLocationInfo([{ placeId: fav.place_id }]);
         setSelected(true);
         setMarkers([]);
       }}
@@ -104,9 +99,6 @@ const Map = ({ loadUser, setloadUser }) => {
   const selectedMarkerInfo = [...userFavorites, ...markers].find(
     (marker) => `${marker.lat}_${marker.lng}` === selected
   );
-
-  console.log("markers:", userFavorites, markers);
-  console.log("selectedMarkerInfo:", selectedMarkerInfo);
 
   const markerComponents = [...locationMarker, ...favoriteMarkers];
 
@@ -156,7 +148,8 @@ const Map = ({ loadUser, setloadUser }) => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {ismyLocationBtnClicked && myCurrentLocationPin && (
+        {console.log("myCurrentLocationPin:", myCurrentLocationPin.length)}
+        {ismyLocationBtnClicked && myCurrentLocationPin.length && (
           <Marker
             // key={ind}
             position={{
@@ -171,7 +164,22 @@ const Map = ({ loadUser, setloadUser }) => {
             }}
           />
         )}
+        {console.log("loadUser in Map.js: ", loadUser)}
+
         {markerComponents}
+        {/* {console.log(
+          "Ture or Flase Checiking: ",
+          userFavorites &&
+            userFavorites.some(
+              (fav) =>
+                fav.lat === detailedLocationInfo.lat &&
+                fav.lng === detailedLocationInfo.lng
+            )
+        )} */}
+        {console.log(
+          "userFavoritesuserFavoritesuserFavoritesuserFavorites:",
+          userFavorites
+        )}
         {detailedLocationInfo && (
           <LocationInfoBox
             selected={selected}
@@ -179,11 +187,10 @@ const Map = ({ loadUser, setloadUser }) => {
             detailedLocationInfo={detailedLocationInfo}
             isFavorite={
               userFavorites &&
-              userFavorites.find(
-                (fav) =>
-                  fav.coordinates.lat ===
-                    detailedLocationInfo.coordinates.lat &&
-                  fav.coordinates.lng === detailedLocationInfo.coordinates.lng
+              userFavorites.some(
+                ({ lat, lng }) =>
+                  lat === detailedLocationInfo.lat &&
+                  lng === detailedLocationInfo.lng
               )
             }
             setloadUser={setloadUser}
