@@ -31,7 +31,7 @@ const Map = ({ loadUser, setloadUser }) => {
           let expired = data && Date.now() - data.cacheTimestamp > 900000; // 15mins
           if (!data || expired) {
             const res = await fetch(
-              `http://127.0.0.1:5000/placeId/${place_Id}`
+              `//gkim132.pythonanywhere.com/placeId/${place_Id}`
             );
             data = await res.json();
             store(`place_${place_Id}`, { ...data, cacheTimestamp: Date.now() });
@@ -60,8 +60,6 @@ const Map = ({ loadUser, setloadUser }) => {
   }, []);
 
   const userFavorites = loadUser?.favorites ? loadUser.favorites : [];
-  console.log("userFav:", userFavorites);
-  console.log("Ture or False ", !userFavorites.length);
   const favoriteMarkers = userFavorites.map((fav, ind) => (
     <Marker
       key={`${ind}_${fav.lat}_${fav.lng}`}
@@ -148,7 +146,6 @@ const Map = ({ loadUser, setloadUser }) => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {console.log("myCurrentLocationPin:", myCurrentLocationPin.length)}
         {ismyLocationBtnClicked && myCurrentLocationPin.length && (
           <Marker
             // key={ind}
@@ -164,22 +161,7 @@ const Map = ({ loadUser, setloadUser }) => {
             }}
           />
         )}
-        {console.log("loadUser in Map.js: ", loadUser)}
-
         {markerComponents}
-        {/* {console.log(
-          "Ture or Flase Checiking: ",
-          userFavorites &&
-            userFavorites.some(
-              (fav) =>
-                fav.lat === detailedLocationInfo.lat &&
-                fav.lng === detailedLocationInfo.lng
-            )
-        )} */}
-        {console.log(
-          "userFavoritesuserFavoritesuserFavoritesuserFavorites:",
-          userFavorites
-        )}
         {detailedLocationInfo && (
           <LocationInfoBox
             selected={selected}
@@ -189,8 +171,8 @@ const Map = ({ loadUser, setloadUser }) => {
               userFavorites &&
               userFavorites.some(
                 ({ lat, lng }) =>
-                  lat === detailedLocationInfo.lat &&
-                  lng === detailedLocationInfo.lng
+                  +lat === detailedLocationInfo.coordinates.lat &&
+                  +lng === detailedLocationInfo.coordinates.lng
               )
             }
             setloadUser={setloadUser}

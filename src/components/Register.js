@@ -33,7 +33,6 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
         if (user.id) {
           setloadUser(user);
           setRoute("map");
-          console.log("Register respose:", user);
         }
       });
   };

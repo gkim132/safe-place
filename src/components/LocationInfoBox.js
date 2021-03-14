@@ -11,7 +11,6 @@ const LocationInfoBox = ({
   isFavorite,
 }) => {
   const [localDate, setLocalDate] = useState();
-  console.log("isFavorite: ", isFavorite);
   useEffect(() => {
     const fetchEvents = async () => {
       const timestamp = Math.floor(Date.now() / 1000);
@@ -39,7 +38,6 @@ const LocationInfoBox = ({
         favorites: [...userFavorites, detailedLocationInfo],
       };
     });
-    console.log("Save / detailedLocationInfo:", detailedLocationInfo);
     fetch("http://localhost:3030/favorites", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -51,8 +49,6 @@ const LocationInfoBox = ({
     })
       .then((response) => response.json())
       .then((favorites) => {
-        console.log("handleSaveLocationconclick", favorites);
-
         setloadUser((state) => ({
           ...state,
           favorites: favorites.map((fav) => ({
@@ -167,18 +163,3 @@ const LocationInfoBox = ({
 };
 
 export default LocationInfoBox;
-
-/** Popular time api respose */
-// {
-// address: "402 N Thornton Ave, Madison, WI 53703, USA"
-// coordinates: {lat: 43.09204070000001, lng: -89.3671462}
-// id: "ChIJ4S4bKH1TBogRoJs0IEFgQXk"
-// international_phone_number: "+1 608-266-4711"
-// name: "Tenney Park"
-// populartimes: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
-// rating: 4.6
-// rating_n: 547
-// time_spent: (2) [60, 60]
-// types: (4) ["park", "tourist_attraction", "point_of_interest", "establishment"]
-// __proto__: Object
-// }

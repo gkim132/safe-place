@@ -37,16 +37,6 @@ function SearchBox({
     },
   });
 
-  const handleMyLocationCoord = useCallback(
-    (coord) => {
-      return {
-        lat: () => coord[0],
-        lng: () => coord[1],
-      };
-    },
-    [myLocationCoord]
-  );
-
   const handleButton = () => {
     setValue("");
   };
