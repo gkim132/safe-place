@@ -43,7 +43,7 @@ const Map = ({ loadUser, setloadUser }) => {
           setSelected(true);
         }
       } catch (err) {
-        console.log("ERROR", err);
+        console.log("Poppular Time API ERROR", err);
       }
     };
     fetchEvent();

@@ -31,9 +31,7 @@ function Register({ setloadUser, setRoute, setIsSignedIn }) {
     })
       .then((response) => response.json())
       .then((user) => {
-        console.log("before:", user);
         if (user !== "Register Error" && user.id) {
-          console.log("pass: ", user);
           setloadUser(user);
           setRoute("map");
           setIsSignedIn(true);
