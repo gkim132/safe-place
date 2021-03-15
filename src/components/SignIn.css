@@ -1,0 +1,50 @@
+.SignIn {
+  max-width: 400px;
+  margin: 40px auto 0;
+}
+.SignIn h5 {
+  text-align: center;
+  margin: 0em 0 1em;
+  font-size: 1.4em;
+  font-weight: 100;
+  color: #222;
+}
+.SignIn fieldset {
+  padding: 2em 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.SignIn .control {
+  margin-bottom: 1em;
+}
+.SignIn .actionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+.SignIn input[type="text"],
+.SignIn input[type="password"],
+.SignIn input[type="email"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.SignIn button,
+.SignIn input[type="submit"] {
+  background: #1a73e8;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.SignIn button:hover,
+.SignIn input[type="submit"]:hover {
+  background: #1b66ca;
+}

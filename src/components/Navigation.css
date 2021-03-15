@@ -1,0 +1,27 @@
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  right: 12px;
+  top: 1vw;
+  z-index: 7;
+  opacity: 0.9;
+}
+
+.nav button {
+  background: transparent;
+  border: 0px solid gray;
+  /* border-radius: 3px; */
+  padding: 0px 3px;
+  color: #1b1b1b;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  border-bottom: 1px solid black;
+}
+.nav.navLogin {
+  position: relative;
+}
+.nav.navLogin button {
+  margin-left: 1em;
+}

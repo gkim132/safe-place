@@ -10,3 +10,7 @@ body {
 .gm-style .gm-style-iw-t::after {
   display: none !important;
 }
+
+[role="button"] {
+  outline: none;
+}
