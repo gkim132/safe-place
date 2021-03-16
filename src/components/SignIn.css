@@ -48,3 +48,7 @@
 .SignIn input[type="submit"]:hover {
   background: #1b66ca;
 }
+.SignIn button:active,
+.SignIn input[type="submit"]:active {
+  background: #1a73e8;
+}
