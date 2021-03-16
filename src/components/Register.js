@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import "./Register.css";
 
-function Register({
-  setloadUser,
-  setRoute,
-  setIsSignedIn,
-  isHerokuAwake,
-  setIsHerokuAwake,
-}) {
+function Register({ setloadUser, setRoute, setIsSignedIn }) {
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(true);
+  const [isHerokuAwake, setIsHerokuAwake] = useState(true);
+
   const onNameChange = (event) => {
     setRegisterName(event.target.value);
   };
@@ -55,7 +51,7 @@ function Register({
           <fieldset id="sign_up">
             <legend>Register</legend>
             <h5>Safe Place</h5>
-            {!isHerokuAwake ? (
+            {!isHerokuAwake && isRegisterSuccess ? (
               <div>
                 <img
                   className="spinner"

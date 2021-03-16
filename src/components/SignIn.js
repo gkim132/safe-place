@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import "./SignIn.css";
 
-const SignIn = ({
-  setloadUser,
-  setRoute,
-  setIsSignedIn,
-  isHerokuAwake,
-  setIsHerokuAwake,
-}) => {
+const SignIn = ({ setloadUser, setRoute, setIsSignedIn }) => {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [isSignInSuccess, setIsSignInSuccess] = useState(true);
+  const [isHerokuAwake, setIsHerokuAwake] = useState(true);
 
   const onEmailChange = (e) => {
     setSignInEmail(e.target.value);
@@ -22,7 +17,6 @@ const SignIn = ({
 
   const onSubmitSignIn = () => {
     setIsHerokuAwake(false);
-    console.log("1", isHerokuAwake);
     fetch("https://safe-place-nodejs-backend.herokuapp.com/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -35,7 +29,6 @@ const SignIn = ({
       .then((data) => {
         if ((data !== "Wrong Credentials" && data.length > 0) || data.email) {
           setIsHerokuAwake(true);
-          console.log("2", isHerokuAwake);
           setloadUser(data);
           setRoute("home");
           setIsSignedIn(true);
@@ -52,7 +45,7 @@ const SignIn = ({
           <fieldset id="sign_up">
             <legend>Sign In</legend>
             <h5>Safe Place</h5>
-            {!isHerokuAwake ? (
+            {!isHerokuAwake && isSignInSuccess ? (
               <div>
                 <img
                   className="spinner"

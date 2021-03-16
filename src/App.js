@@ -7,7 +7,6 @@ import Register from "./components/Register";
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [route, setRoute] = useState("signIn");
-  const [isHerokuAwake, setIsHerokuAwake] = useState(true);
   const [loadUser, setloadUser] = useState({
     id: "",
     name: "",
@@ -33,16 +32,12 @@ function App() {
           setloadUser={setloadUser}
           setRoute={setRoute}
           setIsSignedIn={setIsSignedIn}
-          isHerokuAwake={isHerokuAwake}
-          setIsHerokuAwake={setIsHerokuAwake}
         />
       ) : (
         <Register
           setloadUser={setloadUser}
           setRoute={setRoute}
           setIsSignedIn={setIsSignedIn}
-          isHerokuAwake={isHerokuAwake}
-          setIsHerokuAwake={setIsHerokuAwake}
         />
       )}
     </div>
