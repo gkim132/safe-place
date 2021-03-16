@@ -39,7 +39,7 @@ const LocationInfoBox = ({
       };
     });
     fetch("https://safe-place-nodejs-backend.herokuapp.com/favorites", {
-      method: "post",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         placeId: detailedLocationInfo.id,
@@ -60,7 +60,7 @@ const LocationInfoBox = ({
   };
   const handleDeleteSaveLocationclick = () => {
     fetch("https://safe-place-nodejs-backend.herokuapp.com/delete", {
-      method: "post",
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         placeId: detailedLocationInfo.id,
